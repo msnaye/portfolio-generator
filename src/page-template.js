@@ -1,3 +1,4 @@
+
     module.exports = (name, github)=>{
     return `
     <!DOCTYPE html> 
@@ -16,6 +17,4 @@
     </html>
     `;
   };
-  
-  
   
