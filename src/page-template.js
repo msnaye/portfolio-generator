@@ -1,8 +1,5 @@
-const profileDataArgs = process.argv.slice(2);
 
-const [name, github] = profileDataArgs;
-
-const generatePage = (name, github) => {
+    module.exports = (name, github)=>{
     return `
     <!DOCTYPE html> 
     <html lang="en"> 
@@ -21,9 +18,3 @@ const generatePage = (name, github) => {
     `;
   };
   
-  fs.writeFile('./index.html', generatePage(name, github), err => {
-    if (err) throw new Error(err);
-  
-    console.log('Portfolio complete! Check out index.html to see the output!');
-  });
-  module.exports = generatePage;
