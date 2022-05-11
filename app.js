@@ -1,8 +1,6 @@
+const fs = require('fs');
 const inquirer = require('inquirer');
-
-//const fs = require('fs');
-
-//const generatePage = require('./src/page-template');
+const generatePage = require('./src/page-template');
 
 //const pageHTML = generatePage(name, github);
 
@@ -47,35 +45,25 @@ const inquirer = require('inquirer');
       type: 'input',
       name: 'about',
       message: 'Provide some information about yourself:',
-      when: ({ confirmAbout }) => {
-          if (confirmAbout){
-          return true;
-      } else {
-          return false;
-    }
-   }
-}
-
-  .then(projectData => {
-    portfolioData.projects.push(projectData);
-    if (projectData.confirmAddProject) {
-      return promptProject(portfolioData);
-    } else {
-      return portfolioData;
-    }
-   }
+      when: ({ confirmAbout }) => confirmAbout
+        
+      }
+    ]);
+    };
 
 const promptProject = portfolioData => {
-    // If there's no 'projects' array property, create one
-if (!portfolioData.projects) {
-    portfolioData.projects = [];
-
     console.log(`
   =================
   Add a New Project
   =================
   `);
-    return inquirer.prompt([
+
+   // If there's no 'projects' array property, create one
+if (!portfolioData.projects) {
+    portfolioData.projects = [];
+}
+    return inquirer
+    .prompt([
       {
         type: 'input',
         name: 'name',
@@ -130,14 +118,21 @@ if (!portfolioData.projects) {
         message: 'Would you like to enter another project?',
         default: false
 }
-    ]);
+    ])
+    .then(projectData => {
+        portfolioData.projects.push(projectData);
+        if (projectData.confirmAddProject) {
+          return promptProject(portfolioData);
+        } else {
+          return portfolioData;
+        }
+       });
+    };
 
 promptUser()
   
   .then(promptProject)
-  .then(portfolioDate=>{
+  .then(portfolioData=>{
       console.log(portfolioData);
   
-  })
-}}
-}
+  });
